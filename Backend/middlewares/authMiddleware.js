@@ -24,6 +24,7 @@ const isAuthenticate = asyncHandler(async (req, res, next) => {
 });
 
 //Check if the user is admin or not
+// This middleware will execute after the isAuthenticate Middleware because only then req.user will be filled with data
 const isAuthorizedAdmin = asyncHandler(async (req, res, next) => {
   if (req.user && req.user.isAdmin) {
     next();

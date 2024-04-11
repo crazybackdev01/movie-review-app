@@ -3,6 +3,9 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import path from "path";
 import connectDB from "./config/db.js";
+//Routes
+import userRoutes from "./routes/user.route.js";
+
 const app = express();
 
 //CONFIGURATIONS
@@ -17,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 //ROUTES
-// app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/users", userRoutes);
 // app.use("/api/v1/genre", genreRoutes);
 // app.use("/api/v1/movies", moviesRoutes);
 // app.use("/api/v1/upload", uploadRoutes);
