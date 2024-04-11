@@ -47,5 +47,96 @@ const registerUserController = asyncHandler(async (req, res, next) => {
 });
 
 //LOGIN
+const loginUserController = asyncHandler(async (req, res, next) => {
+  const { email, password } = req.body;
+  const existingUser = await User.findOne({ email });
 
-export { registerUserController };
+  if (existingUser) {
+    const isPasswordValid = bcrypt.compare(password, existingUser.password);
+
+    if (isPasswordValid) {
+      generateToken(res, existingUser._id);
+
+      res.status(200).json({
+        userId: existingUser._id,
+        username: existingUser.username,
+        email: existingUser.email,
+        isAdmin: existingUser.isAdmin,
+      });
+    } else {
+      res.status(401).json({ message: "Invalid password" });
+    }
+  } else {
+    res.status(401).json({ message: "User not found" });
+  }
+});
+
+//LOGOUT
+const logoutUserController = asyncHandler(async (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+
+  res.status(200).json({ message: "User logged out" });
+});
+
+//GET USERS as ADMIN
+const getAllUsersController = asyncHandler(async (req, res, next) => {
+  const users = await User.find({});
+  res.status(200).json({ users });
+});
+
+//GET PROFILE
+const getProfileController = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    res.status(200).json({
+      userId: user._id,
+      username: user.username,
+      email: user.email,
+    });
+  } else {
+    res.status(401);
+    throw new Error("Usern not found");
+  }
+});
+
+//UPDATE PROFILE
+const updateProfileController = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+  //user will include all the data including hashed password string also....
+
+  if (user) {
+    user.username = req.body.username || user.username;
+    user.email = req.body.email || user.email;
+
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      const newHashedPassword = await bcrypt.hash(req.body.password, salt);
+      user.password = newHashedPassword;
+    }
+
+    const updatedUser = await user.save();
+
+    res.status(200).json({
+      userId: updatedUser._id,
+      username: updatedUser.username,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
+  } else {
+    res.status(401);
+    throw new Error("Token expired or User not found");
+  }
+});
+
+export {
+  registerUserController,
+  loginUserController,
+  logoutUserController,
+  getAllUsersController,
+  getProfileController,
+  updateProfileController,
+};
