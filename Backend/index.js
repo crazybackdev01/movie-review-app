@@ -5,7 +5,8 @@ import path from "path";
 import connectDB from "./config/db.js";
 // import cors from "cors";
 //Routes
-import userRoutes from "./routes/user.route.js";
+import userRoutes from "./routes/user.routes.js";
+import genreRoutes from "./routes/genre.routes.js";
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use(cookieParser());
 
 //ROUTES
 app.use("/api/v1/users", userRoutes);
-// app.use("/api/v1/genre", genreRoutes);
+app.use("/api/v1/genre", genreRoutes);
 // app.use("/api/v1/movies", moviesRoutes);
 // app.use("/api/v1/upload", uploadRoutes);
 

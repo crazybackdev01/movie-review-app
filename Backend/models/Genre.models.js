@@ -11,5 +11,5 @@ const genreSchema = new mongoose.Schema({
 });
 
 // export default mongoose.model("Genre", genreSchema);
-const Genre = mongooss.model("Genre", genreSchema);
+const Genre = mongoose.model("Genre", genreSchema);
 export default Genre;
