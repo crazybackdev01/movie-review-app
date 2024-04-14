@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import path from "path";
 import connectDB from "./config/db.js";
+// import cors from "cors";
 //Routes
 import userRoutes from "./routes/user.route.js";
 
@@ -18,6 +19,7 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+// app.use(cors({ origin: "http://localhost:5173" }));
 
 //ROUTES
 app.use("/api/v1/users", userRoutes);

@@ -56,6 +56,7 @@ const loginUserController = asyncHandler(async (req, res, next) => {
 
     if (isPasswordValid) {
       generateToken(res, existingUser._id);
+      //by above line, a new variable userId will be created which we will get after verifying this token by jwt.verify() function as response.userId
 
       res.status(200).json({
         userId: existingUser._id,
@@ -99,13 +100,13 @@ const getProfileController = asyncHandler(async (req, res, next) => {
     });
   } else {
     res.status(401);
-    throw new Error("Usern not found");
+    throw new Error("User not found");
   }
 });
 
 //UPDATE PROFILE
 const updateProfileController = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user._id);
+  let user = await User.findById(req.user._id);
   //user will include all the data including hashed password string also....
 
   if (user) {
