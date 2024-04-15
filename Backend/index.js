@@ -3,11 +3,11 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import path from "path";
 import connectDB from "./config/db.js";
-// import cors from "cors";
 //Routes
 import userRoutes from "./routes/user.routes.js";
 import genreRoutes from "./routes/genre.routes.js";
-
+import moviesRoutes from "./routes/movies.routes.js";
+import uploadRoutes from "./routes/upload.routes.js";
 const app = express();
 
 //CONFIGURATIONS
@@ -25,10 +25,10 @@ app.use(cookieParser());
 //ROUTES
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/genre", genreRoutes);
-// app.use("/api/v1/movies", moviesRoutes);
-// app.use("/api/v1/upload", uploadRoutes);
+app.use("/api/v1/movies", moviesRoutes);
+app.use("/api/v1/upload", uploadRoutes);
 
-app.listen(PORT, (error) => {
-  //   connectDB();
+app.listen(PORT, () => {
+  //connectDB();
   console.log(`listening on ${process.env.PORT}`);
 });
