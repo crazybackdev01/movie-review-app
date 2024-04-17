@@ -20,7 +20,7 @@ const createGenreController = asyncHandler(async (req, res) => {
 
     const newGenre = new Genre({ name });
     await newGenre.save();
-    return res.status(200).json({ addedGenre: newGenre });
+    return res.status(200).json(newGenre);
   } catch (error) {
     console.log(error);
     return res.status(404).json({ error: error });
@@ -45,7 +45,7 @@ const updateGenreController = asyncHandler(async (req, res) => {
     isExistGenre.name = newName;
     const updatedGenre = await isExistGenre.save();
     //updatedGenre will contain the new Genre object that is updated including id and name(all details)
-    return res.status(200).json({ message: " Successfully Updated Genre" });
+    return res.status(200).json(updatedGenre);
   } catch (error) {
     return res.status(404).json({ error: error });
   }
@@ -63,7 +63,7 @@ const deleteGenreController = asyncHandler(async (req, res) => {
     if (!genreToDelete) {
       return res.status(404).json({ message: "genre not found" });
     }
-    return res.status(204).json({ deletedGenre: genreToDelete });
+    return res.status(204).json(genreToDelete);
   } catch (error) {
     return res.status(404).json({ error: error });
   }
@@ -77,7 +77,7 @@ const deleteGenreController = asyncHandler(async (req, res) => {
 const getAllGenreController = asyncHandler(async (req, res) => {
   try {
     const allGenres = await Genre.find({});
-    return res.status(200).json({ allGenres });
+    return res.status(200).json(allGenres);
   } catch (error) {
     return res.status(404).json({ error: "Cannot Get all genres" });
   }
@@ -91,7 +91,7 @@ const readGenreController = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
     const genreToRead = await Genre.findOne({ _id: id });
-    return res.status(200).json({ genreAskedFor: genreToRead });
+    return res.status(200).json(genreToRead);
   } catch (error) {
     console.error(error);
     return res.status(404).json({ error: "Cannot Read Genre" });
