@@ -30,7 +30,7 @@ app.use("/api/v1/upload", uploadRoutes);
 
 //Serving Static files route
 const __dirname = path.resolve();
-app.use("/uploads", express.static(path.join(__dirname + "/uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 app.listen(PORT, () => {
   //connectDB();

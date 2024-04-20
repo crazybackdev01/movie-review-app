@@ -1,5 +1,5 @@
 import Genre from "../models/Genre.models.js";
-import asyncHandler from "../middlewares/asyncHandler";
+import asyncHandler from "../middlewares/asyncHandler.js";
 
 /**
  * @CREATE_GENRE
@@ -59,13 +59,14 @@ const updateGenreController = asyncHandler(async (req, res) => {
 const deleteGenreController = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    const genreToDelete = await Genre.findByIdAndDelete({ _id: id });
+    const genreToDelete = await Genre.findByIdAndDelete(id);
     if (!genreToDelete) {
       return res.status(404).json({ message: "genre not found" });
     }
-    return res.status(204).json(genreToDelete);
+    console.log(genreToDelete);
+    res.status(200).json(genreToDelete);
   } catch (error) {
-    return res.status(404).json({ error: error });
+    return res.status(404).json(error);
   }
 });
 
